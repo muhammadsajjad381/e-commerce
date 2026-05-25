@@ -1,6 +1,4 @@
-/**
- * Redux Store Configuration
- */
+
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 
@@ -11,7 +9,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Cart is managed by Zustand — no need to check here
+       
         ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
       },
     }),

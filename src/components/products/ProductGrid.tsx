@@ -1,16 +1,4 @@
-/**
- * ╔══════════════════════════════════════════════════════════════╗
- * ║  ProductGrid.tsx                                             ║
- * ║                                                              ║
- * ║  Features:                                                   ║
- * ║  • Staggered entrance animations via Framer Motion          ║
- * ║  • Sidebar filter panel (desktop) + bottom sheet (mobile)   ║
- * ║  • Instant search with debounced API calls                  ║
- * ║  • Price range slider + attribute multi-select              ║
- * ║  • Layout toggle: Grid / List                               ║
- * ║  • Pagination with animated page transitions                ║
- * ╚══════════════════════════════════════════════════════════════╝
- */
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -21,7 +9,6 @@ import ProductCard, { ProductCardSkeleton, cardVariants } from './ProductCard';
 import type { Product, ProductFilters } from '../../types';
 import api from '../../lib/api';
 
-// ─── Stagger Container Variants ───────────────────────────────
 const gridContainerVariants = {
   hidden:  { opacity: 0 },
   visible: {
@@ -34,15 +21,12 @@ const gridContainerVariants = {
   },
   exit:    { opacity: 0, transition: { duration: 0.2 } },
 };
-
-// ─── Filter Panel Slide Variants ──────────────────────────────
 const filterPanelVariants = {
   hidden:  { x: '-100%', opacity: 0 },
   visible: { x: 0, opacity: 1, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
   exit:    { x: '-100%', opacity: 0, transition: { duration: 0.25 } },
 };
 
-// ─── Utility: debounce ────────────────────────────────────────
 function useDebounce<T>(value: T, delay: number): T {
   const [debounced, setDebounced] = useState<T>(value);
   useEffect(() => {
@@ -52,7 +36,6 @@ function useDebounce<T>(value: T, delay: number): T {
   return debounced;
 }
 
-// ─── Sort Options ─────────────────────────────────────────────
 const SORT_OPTIONS = [
   { value: 'newest',     label: 'Newest First' },
   { value: 'popular',    label: 'Most Popular' },
@@ -60,8 +43,6 @@ const SORT_OPTIONS = [
   { value: 'price_asc',  label: 'Price: Low → High' },
   { value: 'price_desc', label: 'Price: High → Low' },
 ];
-
-// ─── Mock product data for offline/demo mode ──────────────────
 const MOCK_PRODUCTS: Product[] = Array.from({ length: 12 }, (_, i) => ({
   _id:          `mock-${i}`,
   slug:         `product-${i + 1}`,
@@ -128,9 +109,7 @@ const MOCK_PRODUCTS: Product[] = Array.from({ length: 12 }, (_, i) => ({
   updatedAt:    new Date().toISOString(),
 }));
 
-// ─────────────────────────────────────────────────────────────
-// ProductGrid Component
-// ─────────────────────────────────────────────────────────────
+
 interface ProductGridProps {
   categoryId?: string;
   vendorId?:   string;
@@ -144,7 +123,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   title = 'All Products',
   useMockData = false,  // Use real API data
 }) => {
-  // ── State ──────────────────────────────────────────────
   const [products,       setProducts]       = useState<Product[]>([]);
   const [isLoading,      setIsLoading]      = useState(true);
   const [error,          setError]          = useState<string | null>(null);
@@ -170,7 +148,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   const debouncedSearch = useDebounce(localSearch, 400);
   const sortRef         = useRef<HTMLDivElement>(null);
 
-  // ── Close sort dropdown on outside click ────────────────
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
@@ -181,18 +158,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // ── Sync debounced search to filters ────────────────────
   useEffect(() => {
     setFilters((prev) => ({ ...prev, search: debouncedSearch, page: 1 }));
   }, [debouncedSearch]);
 
-  // ── Fetch products ───────────────────────────────────────
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     if (useMockData) {
-      // Simulate network latency for realistic skeleton demo
+    
       await new Promise((r) => setTimeout(r, 800));
       let filtered = [...MOCK_PRODUCTS];
 
@@ -213,7 +188,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       return;
     }
 
-    // ─── Real API call ─────────────────────────────────
     try {
       const params = new URLSearchParams();
       Object.entries(filters).forEach(([k, v]) => {
@@ -254,12 +228,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
   const currentSort = SORT_OPTIONS.find((o) => o.value === filters.sort) ?? SORT_OPTIONS[0];
 
-  // ─────────────────────────────────────────────────────────
-  // Render
-  // ─────────────────────────────────────────────────────────
+
   return (
     <section id="product-grid-section" className="w-full">
-      {/* ── Section Header ─────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-zinc-100">{title}</h2>
@@ -270,7 +241,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           )}
         </div>
 
-        {/* ── Controls Bar ──────────────────────────────── */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Search */}
           <div className="relative">
@@ -381,9 +351,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         </div>
       </div>
 
-      {/* ── Layout Wrapper ─────────────────────────────── */}
       <div className="flex gap-6">
-        {/* ── Filter Sidebar (desktop) ───────────────── */}
         <AnimatePresence>
           {filterOpen && (
             <motion.aside
@@ -468,7 +436,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           )}
         </AnimatePresence>
 
-        {/* ── Mobile Filter Sheet ──────────────────────── */}
         <AnimatePresence>
           {filterOpen && (
             <>
@@ -546,7 +513,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           )}
         </AnimatePresence>
 
-        {/* ── Product Cards ────────────────────────────── */}
         <div className="flex-1 min-w-0">
           {/* Error State */}
           {error && (
@@ -627,7 +593,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             </AnimatePresence>
           )}
 
-          {/* ── Pagination ──────────────────────────────── */}
           {totalPages > 1 && !isLoading && (
             <div className="flex items-center justify-center gap-2 mt-10">
               <button

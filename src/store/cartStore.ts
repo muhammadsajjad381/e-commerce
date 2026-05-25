@@ -1,9 +1,4 @@
-/**
- * Cart Store — Zustand
- *
- * Manages the global shopping cart state.
- * Persists to localStorage via zustand/middleware.
- */
+
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import toast from 'react-hot-toast';
@@ -11,11 +6,9 @@ import toast from 'react-hot-toast';
 const useCartStore = create(
   persist(
     (set, get) => ({
-      // ─── State ──────────────────────────────────────────
       items:     [],
       isOpen:    false,
 
-      // ─── Computed Getters ─────────────────────────────
       get itemCount() {
         return get().items.reduce((sum, i) => sum + i.quantity, 0);
       },
@@ -23,15 +16,10 @@ const useCartStore = create(
         return get().items.reduce((sum, i) => sum + i.variant.price * i.quantity, 0);
       },
 
-      // ─── Actions ──────────────────────────────────────
       openCart:  () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
       toggleCart:() => set((s) => ({ isOpen: !s.isOpen })),
 
-      /**
-       * addItem — adds a product+variant combo to the cart.
-       * If the same variant already exists, increments quantity.
-       */
       addItem: (product, variant, quantity = 1) => {
         const { items } = get();
         const existingIdx = items.findIndex(
@@ -62,7 +50,6 @@ const useCartStore = create(
         }
       },
 
-      /** removeItem — removes a specific variant from cart */
       removeItem: (productId, variantId) => {
         set((s) => ({
           items: s.items.filter(
@@ -72,7 +59,6 @@ const useCartStore = create(
         toast('Item removed from cart', { icon: '🗑️' });
       },
 
-      /** updateQuantity — sets exact quantity for an item */
       updateQuantity: (productId, variantId, quantity) => {
         if (quantity < 1) {
           get().removeItem(productId, variantId);
@@ -87,13 +73,12 @@ const useCartStore = create(
         }));
       },
 
-      /** clearCart — empties the entire cart */
       clearCart: () => set({ items: [] }),
     }),
     {
       name:    'ecom-cart',
       storage: createJSONStorage(() => localStorage),
-      // Only persist items array, not UI state
+    
       partialize: (s) => ({ items: s.items }),
     }
   )

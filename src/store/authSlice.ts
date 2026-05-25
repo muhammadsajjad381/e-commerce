@@ -1,16 +1,9 @@
-/**
- * Auth Slice — Redux Toolkit
- *
- * Manages authentication state globally.
- * Persists user and token to localStorage.
+
  */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { AuthState } from '../types';
 import api from '../lib/api';
 
-// ─────────────────────────────────────────────────────────────
-// Async Thunks
-// ─────────────────────────────────────────────────────────────
 
 export const loginUser = createAsyncThunk(
   'auth/login',
@@ -55,9 +48,6 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-// ─────────────────────────────────────────────────────────────
-// Slice
-// ─────────────────────────────────────────────────────────────
 
 const initialState: AuthState & { error: string | null } = {
   user:            null,
@@ -82,7 +72,6 @@ const authSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    // ── Login ──────────────────────────────────────────────
     builder
       .addCase(loginUser.pending, (s) => { s.isLoading = true; s.error = null; })
       .addCase(loginUser.fulfilled, (s, a) => {
@@ -96,7 +85,6 @@ const authSlice = createSlice({
         s.error     = a.payload as string;
       });
 
-    // ── Register ───────────────────────────────────────────
     builder
       .addCase(registerUser.pending,   (s) => { s.isLoading = true; s.error = null; })
       .addCase(registerUser.fulfilled, (s, a) => {
@@ -110,7 +98,6 @@ const authSlice = createSlice({
         s.error     = a.payload as string;
       });
 
-    // ── Fetch Current User ─────────────────────────────────
     builder
       .addCase(fetchCurrentUser.pending,   (s) => { s.isLoading = true; })
       .addCase(fetchCurrentUser.fulfilled, (s, a) => {

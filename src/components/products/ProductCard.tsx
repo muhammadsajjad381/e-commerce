@@ -1,16 +1,4 @@
-/**
- * ╔══════════════════════════════════════════════════════════════╗
- * ║  ProductCard.tsx                                             ║
- * ║                                                              ║
- * ║  Features:                                                   ║
- * ║  • Framer Motion hover & tap animations                     ║
- * ║  • Magnetic "Add to Cart" button with ripple effect         ║
- * ║  • Variant colour swatch selector                           ║
- * ║  • Discount badge + low-stock warning                       ║
- * ║  • Skeleton shimmer while loading                           ║
- * ║  • 100% responsive (1 → 2 → 3 → 4 col grid)               ║
- * ╚══════════════════════════════════════════════════════════════╝
- */
+
 import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Heart, Star, Eye, Zap, AlertTriangle } from 'lucide-react';
@@ -18,7 +6,6 @@ import { Link } from 'react-router-dom';
 import type { Product, ProductVariant } from '../../types';
 import useCartStore from '../../store/cartStore';
 
-// ─── Utility ─────────────────────────────────────────────────
 const clsx = (...classes: (string | undefined | false | null)[]): string =>
   classes.filter(Boolean).join(' ');
 
@@ -28,7 +15,6 @@ const formatPrice = (n: number) =>
 const discountPercent = (original: number, current: number) =>
   Math.round(((original - current) / original) * 100);
 
-// ─── Skeleton Card (while loading) ───────────────────────────
 export const ProductCardSkeleton: React.FC = () => (
   <div className="rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800">
     <div className="skeleton aspect-[4/5] w-full" />
@@ -44,7 +30,6 @@ export const ProductCardSkeleton: React.FC = () => (
   </div>
 );
 
-// ─── Add-to-Cart Button Animation Variants ────────────────────
 const cartBtnVariants = {
   idle:    { scale: 1 },
   hover:   { scale: 1.02, transition: { duration: 0.2 } },
@@ -56,7 +41,6 @@ const cartBtnVariants = {
   },
 };
 
-// ─── Card Variants (for stagger parent) ──────────────────────
 export const cardVariants = {
   hidden:  { opacity: 0, y: 24, scale: 0.97 },
   visible: {
@@ -68,25 +52,20 @@ export const cardVariants = {
   exit:    { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
 };
 
-// ─── Wishlist Heart Animation ─────────────────────────────────
 const heartVariants = {
   unliked: { scale: 1, fill: 'transparent' },
   liked:   { scale: [1, 1.4, 1], fill: '#f43f5e', transition: { duration: 0.35 } },
 };
 
-// ─────────────────────────────────────────────────────────────
-// ProductCard Component
-// ─────────────────────────────────────────────────────────────
 interface ProductCardProps {
   product: Product;
-  priority?: boolean; // For LCP images
+  priority?: boolean; 
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) => {
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
 
-  // ── Local State ─────────────────────────────────────────
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.variants[0]);
   const [isWishlisted,    setIsWishlisted]    = useState(false);
   const [cartState,       setCartState]       = useState<'idle' | 'loading' | 'success'>('idle');
@@ -95,19 +74,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
 
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // ── Derived Values ──────────────────────────────────────
   const discount = selectedVariant.compareAtPrice
     ? discountPercent(selectedVariant.compareAtPrice, selectedVariant.price)
     : 0;
 
   const isLowStock = selectedVariant.available > 0 && selectedVariant.available <= 5;
   const isOutOfStock = selectedVariant.available === 0;
-
-  // Unique colour swatches from variants
   const colorSwatches = product.attributes.find((a) => a.name === 'Color')?.values || [];
   const sizeOptions   = product.attributes.find((a) => a.name === 'Size')?.values  || [];
 
-  // ── Magnetic Mouse Effect ────────────────────────────────
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -116,14 +91,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
     setMousePos({ x, y });
   }, []);
 
-  // ── Add to Cart Handler ──────────────────────────────────
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isOutOfStock || cartState === 'loading') return;
 
     setCartState('loading');
 
-    // Simulate a micro-delay for the animation to feel fluid
     await new Promise((r) => setTimeout(r, 300));
 
     addItem(product, selectedVariant, 1);
@@ -135,8 +108,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
       openCart();
     }, 1200);
   };
-
-  // ── Variant Selector ─────────────────────────────────────
   const handleVariantSelect = (color: string) => {
     const matchingVariant = product.variants.find(
       (v) => v.attributes['Color'] === color
@@ -158,12 +129,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
                  hover:border-indigo-500/40
                  hover:shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_0_1px_rgba(99,102,241,0.2)]"
       style={{
-        // Subtle spotlight effect that follows cursor
         '--x': `${mousePos.x}%`,
         '--y': `${mousePos.y}%`,
       } as React.CSSProperties}
     >
-      {/* ── Cursor spotlight overlay ──────────────────────── */}
       <div
         className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
@@ -171,7 +140,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
         }}
       />
 
-      {/* ── Product Image ─────────────────────────────────── */}
       <Link to={`/products/${product.slug}`} className="block">
         <div className="product-img-wrapper relative aspect-[4/5] bg-zinc-950 overflow-hidden">
           <motion.img
@@ -183,7 +151,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           />
 
-          {/* ── Badges ──────────────────────────────────── */}
           <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-20">
             {discount > 0 && (
               <motion.span
@@ -221,7 +188,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
             )}
           </div>
 
-          {/* ── Wishlist Button ──────────────────────────── */}
           <motion.button
             id={`wishlist-${product._id}`}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
@@ -247,7 +213,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
             </motion.div>
           </motion.button>
 
-          {/* ── Quick View overlay (appears on hover) ────── */}
           <AnimatePresence>
             {isHovered && (
               <motion.div
@@ -275,7 +240,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) 
         </div>
       </Link>
 
-      {/* ── Card Body ─────────────────────────────────────── */}
       <div className="p-4 space-y-3">
         {/* Category + Rating */}
         <div className="flex items-center justify-between">

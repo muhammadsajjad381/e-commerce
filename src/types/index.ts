@@ -1,32 +1,29 @@
-// ─── Core Entity Types ─────────────────────────────────────────────────────
 
-/** A single selectable attribute value (e.g., Color: "Electric Blue") */
 export interface AttributeValue {
   value: string;
   label: string;
-  hex?: string;        // For color swatches
-  imageUrl?: string;   // Optional swatch image
+  hex?: string;        
+  imageUrl?: string; 
 }
 
-/** A product attribute definition (e.g., Color, Size, Material) */
+
 export interface ProductAttribute {
-  name: string;        // "Color" | "Size" | "Material"
+  name: string;       
   values: AttributeValue[];
 }
 
-/** A specific SKU variant combining multiple attribute values */
+
 export interface ProductVariant {
   _id: string;
   sku: string;
-  attributes: Record<string, string>; // { Color: "Black", Size: "XL" }
+  attributes: Record<string, string>; 
   price: number;
-  compareAtPrice?: number;            // Strikethrough price
+  compareAtPrice?: number;            
   stock: number;
-  reserved: number;                   // Units in active carts/pending orders
-  available: number;                  // stock - reserved
-  imageUrl?: string;                  // Variant-specific image
-  weight?: number;                    // grams
-}
+  reserved: number;                   
+  available: number;                  
+  imageUrl?: string;                  
+  weight?: number;                   \
 
 /** Full product document */
 export interface Product {
@@ -51,9 +48,6 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
 }
-
-// ─── Order Types ────────────────────────────────────────────────────────────
-
 export type OrderStatus =
   | 'pending'
   | 'payment_confirmed'
@@ -117,8 +111,6 @@ export interface Order {
   updatedAt: string;
 }
 
-// ─── Cart Types ─────────────────────────────────────────────────────────────
-
 export interface CartItem {
   product: Product;
   variant: ProductVariant;
@@ -131,8 +123,6 @@ export interface Cart {
   subtotal: number;
   itemCount: number;
 }
-
-// ─── User / Auth Types ──────────────────────────────────────────────────────
 
 export type UserRole = 'customer' | 'vendor' | 'admin';
 
@@ -152,8 +142,6 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
-
-// ─── Vendor / Dashboard Types ───────────────────────────────────────────────
 
 export interface Vendor {
   _id: string;
@@ -195,8 +183,6 @@ export interface VendorMetrics {
   topProducts: Array<{ product: Product; revenue: number; units: number }>;
 }
 
-// ─── API Response wrapper ───────────────────────────────────────────────────
-
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data: T;
@@ -208,8 +194,6 @@ export interface ApiResponse<T = unknown> {
     totalPages: number;
   };
 }
-
-// ─── Product Filters ────────────────────────────────────────────────────────
 
 export interface ProductFilters {
   search?: string;
@@ -223,8 +207,6 @@ export interface ProductFilters {
   page?: number;
   limit?: number;
 }
-
-// ─── UI State ───────────────────────────────────────────────────────────────
 
 export interface UIState {
   cartOpen: boolean;
