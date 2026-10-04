@@ -1,16 +1,7 @@
 import ProductCard from '../components/ProductCard'
+import { dummyProducts } from '../data/products'
 
-// Dummy data - baad mein ye backend API se aayega
-const dummyProducts = [
-  { id: 1, title: 'Wireless Bluetooth Headphones Over-Ear', price: 2499, oldPrice: 3999, discount: 37, image: 'https://picsum.photos/seed/p1/300/300' },
-  { id: 2, title: 'Men\'s Casual Cotton Shirt', price: 1299, image: 'https://picsum.photos/seed/p2/300/300' },
-  { id: 3, title: 'Smart Watch Fitness Tracker', price: 3599, oldPrice: 4999, discount: 28, image: 'https://picsum.photos/seed/p3/300/300' },
-  { id: 4, title: 'Stainless Steel Kitchen Knife Set', price: 1899, image: 'https://picsum.photos/seed/p4/300/300' },
-  { id: 5, title: 'Leather Handbag for Women', price: 2899, oldPrice: 3499, discount: 17, image: 'https://picsum.photos/seed/p5/300/300' },
-  { id: 6, title: 'Gaming Mouse RGB Wired', price: 1499, image: 'https://picsum.photos/seed/p6/300/300' },
-  { id: 7, title: 'Ceramic Coffee Mug Set of 6', price: 999, image: 'https://picsum.photos/seed/p7/300/300' },
-  { id: 8, title: 'Running Shoes for Men', price: 3299, oldPrice: 4299, discount: 23, image: 'https://picsum.photos/seed/p8/300/300' },
-]
+
 
 const categories = [
   { name: 'Electronics', icon: '📱' },
