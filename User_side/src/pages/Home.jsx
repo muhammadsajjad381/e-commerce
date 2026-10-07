@@ -16,7 +16,6 @@ function Home() {
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
 
-      {/* Hero Banner */}
       <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-xl p-6 sm:p-10 md:p-14 text-white mb-6 sm:mb-8">
         <h1 className="text-xl sm:text-3xl md:text-4xl font-bold mb-2">
           Buy, Sell, Anything
@@ -29,7 +28,7 @@ function Home() {
         </button>
       </div>
 
-      {/* Categories quick links */}
+      
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {categories.map((cat) => (
           <div
@@ -42,7 +41,7 @@ function Home() {
         ))}
       </div>
 
-      {/* Product Grid */}
+      
       <div className="flex items-center justify-between mb-3 sm:mb-4">
         <h2 className="text-base sm:text-lg font-semibold text-gray-900">Featured Products</h2>
         <a href="#" className="text-orange-500 text-xs sm:text-sm hover:underline">View All</a>
