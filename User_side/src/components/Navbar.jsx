@@ -32,7 +32,7 @@ function Navbar() {
         <div className="hidden md:flex flex-1 items-center border border-gray-300 rounded-md overflow-hidden">
           <input
             type="text"
-            placeholder="Search products, brands and more..."
+            placeholder="Search products, brands here..."
             className="w-full px-4 py-2 outline-none text-sm"
           />
           <button className="bg-orange-500 text-white px-4 py-2 hover:bg-orange-600 transition">
