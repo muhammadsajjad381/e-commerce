@@ -94,7 +94,7 @@ function Register() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Apna naam likhein"
+                placeholder="Enter your full name"
                 className="w-full outline-none text-sm"
               />
             </div>
@@ -111,7 +111,7 @@ function Register() {
                   name="shopName"
                   value={formData.shopName}
                   onChange={handleChange}
-                  placeholder="Aapki dukaan ka naam"
+                  placeholder="Enter your shop name"
                   className="w-full outline-none text-sm"
                 />
               </div>
@@ -128,7 +128,7 @@ function Register() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="aapka@email.com"
+                placeholder="Enter your email"
                 className="w-full outline-none text-sm"
               />
             </div>

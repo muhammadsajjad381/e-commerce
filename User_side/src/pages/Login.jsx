@@ -32,7 +32,7 @@ function Login() {
           Login to <span className="text-orange-500">MarketHub</span>
         </h1>
         <p className="text-xs sm:text-sm text-gray-500 text-center mb-6">
-          Back into account to continue shopping ya apna product sell karne ke liye
+          Back into account to continue shopping or sell your products
         </p>
 
         {error && (
@@ -53,7 +53,7 @@ function Login() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="aapka@email.com"
+                placeholder="Enter your email"
                 className="w-full outline-none text-sm"
               />
             </div>
