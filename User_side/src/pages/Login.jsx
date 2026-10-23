@@ -13,7 +13,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setError('')
+    setError('') //
 
     if (!formData.email || !formData.password) {
       setError('Please enter both email and password')
