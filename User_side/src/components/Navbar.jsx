@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX, FiChevronDown } from 'react-icons/fi'
 import CategoryDropdown from './CategoryDropdown'
 import MobileDrawer from './MobileDrawer'
@@ -7,16 +8,21 @@ import MobileDrawer from './MobileDrawer'
 function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
+  const cartItems = useSelector((state) => state.cart.items)
+  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0)
+
+  const wishlistItems = useSelector((state) => state.wishlist.items)
+  const wishlistCount = wishlistItems.length
+
   return (
     <header className="w-full shadow-sm sticky top-0 z-50 bg-white">
-      
+
       <div className="hidden md:block bg-gray-900 text-white text-xs py-1.5 px-4 text-center">
         Free delivery on orders over Rs. 2000
       </div>
 
-     
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-        
+
         <button
           className="md:hidden text-gray-700"
           onClick={() => setDrawerOpen(true)}
@@ -24,7 +30,6 @@ function Navbar() {
           <FiMenu size={24} />
         </button>
 
-        
         <Link to="/" className="text-xl md:text-2xl font-bold text-orange-500 shrink-0">
           Market<span className="text-gray-900">Hub</span>
         </Link>
@@ -49,24 +54,33 @@ function Navbar() {
             <FiUser size={20} />
             <span>Login</span>
           </Link>
-          <Link to="/wishlist" className="flex flex-col items-center text-xs hover:text-orange-500">
+          <Link to="/wishlist" className="relative flex flex-col items-center text-xs hover:text-orange-500">
             <FiHeart size={20} />
             <span>Wishlist</span>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-orange-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
           <Link to="/cart" className="relative flex flex-col items-center text-xs hover:text-orange-500">
             <FiShoppingCart size={20} />
             <span>Cart</span>
-            <span className="absolute -top-1 -right-2 bg-orange-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-              0
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-orange-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
 
         <Link to="/cart" className="md:hidden relative text-gray-700">
           <FiShoppingCart size={22} />
-          <span className="absolute -top-1 -right-2 bg-orange-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-            0
-          </span>
+          {cartCount > 0 && (
+            <span className="absolute -top-1 -right-2 bg-orange-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+              {cartCount}
+            </span>
+          )}
         </Link>
       </div>
 

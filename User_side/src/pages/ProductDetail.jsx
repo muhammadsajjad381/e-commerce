@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiHeart, FiShoppingCart, FiStar, FiMinus, FiPlus, FiTruck, FiShield } from 'react-icons/fi'
 import { dummyProducts } from '../data/products'
+import { addToCart } from '../store/cartSlice'
+import { toggleWishlist } from '../store/wishlistSlice'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -10,20 +13,47 @@ function ProductDetail() {
   const [activeImage, setActiveImage] = useState(0)
   const [qty, setQty] = useState(1)
 
+  const dispatch = useDispatch()
+  const wishlistItems = useSelector((state) => state.wishlist.items)
+
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-10 text-center">
-        <p className="text-gray-600">Product nahi mila.</p>
-        <Link to="/" className="text-orange-500 hover:underline">Home pe wapis jayein</Link>
+        <p className="text-gray-600">Product not found</p>
+        <Link to="/" className="text-orange-500 hover:underline">
+          Go back to home
+        </Link>
       </div>
     )
   }
+
+  const isWishlisted = wishlistItems.some((item) => item.id === product.id)
 
   const increaseQty = () => {
     if (qty < product.stock) setQty(qty + 1)
   }
   const decreaseQty = () => {
     if (qty > 1) setQty(qty - 1)
+  }
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.images[0],
+      qty: qty,
+    }))
+  }
+
+  const handleWishlist = () => {
+    dispatch(toggleWishlist({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.images[0],
+    }))
   }
 
   return (
@@ -66,7 +96,6 @@ function ProductDetail() {
             {product.title}
           </h1>
 
-          {/* Rating */}
           <div className="flex items-center gap-2 mb-3">
             <div className="flex items-center gap-1 text-yellow-500">
               <FiStar fill="currentColor" size={16} />
@@ -123,12 +152,22 @@ function ProductDetail() {
 
           {/* Action buttons */}
           <div className="flex gap-3 mb-6">
-            <button className="flex-1 flex items-center justify-center gap-2 bg-gray-900 text-white py-2.5 sm:py-3 rounded-md text-sm sm:text-base hover:bg-orange-500 transition">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 flex items-center justify-center gap-2 bg-gray-900 text-white py-2.5 sm:py-3 rounded-md text-sm sm:text-base hover:bg-orange-500 transition"
+            >
               <FiShoppingCart size={18} />
               Add to Cart
             </button>
-            <button className="p-2.5 sm:p-3 border border-gray-300 rounded-md hover:border-orange-500 hover:text-orange-500 transition">
-              <FiHeart size={20} />
+            <button
+              onClick={handleWishlist}
+              className={`p-2.5 sm:p-3 border rounded-md transition ${
+                isWishlisted
+                  ? 'border-red-500 text-red-500'
+                  : 'border-gray-300 hover:border-orange-500 hover:text-orange-500'
+              }`}
+            >
+              <FiHeart size={20} fill={isWishlisted ? 'currentColor' : 'none'} />
             </button>
           </div>
 

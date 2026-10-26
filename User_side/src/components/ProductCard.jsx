@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
 import { FiHeart, FiShoppingCart } from 'react-icons/fi'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../store/cartSlice'
+import { toggleWishlist } from '../store/wishlistSlice'
 
 function ProductCard({ product }) {
   const dispatch = useDispatch()
+  const wishlistItems = useSelector((state) => state.wishlist.items)
+  const isWishlisted = wishlistItems.some((item) => item.id === product.id)
 
   const handleAddToCart = (e) => {
     e.preventDefault()
@@ -14,6 +17,17 @@ function ProductCard({ product }) {
       price: product.price,
       image: product.image,
       qty: 1,
+    }))
+  }
+
+  const handleWishlist = (e) => {
+    e.preventDefault()
+    dispatch(toggleWishlist({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.image,
     }))
   }
 
@@ -31,10 +45,16 @@ function ProductCard({ product }) {
           </span>
         )}
         <button
-          onClick={(e) => e.preventDefault()}
-          className="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow opacity-0 group-hover:opacity-100 transition"
+          onClick={handleWishlist}
+          className={`absolute top-2 right-2 bg-white rounded-full p-1.5 shadow transition ${
+            isWishlisted ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          }`}
         >
-          <FiHeart size={16} className="text-gray-600" />
+          <FiHeart
+            size={16}
+            className={isWishlisted ? 'text-red-500' : 'text-gray-600'}
+            fill={isWishlisted ? 'currentColor' : 'none'}
+          />
         </button>
       </Link>
 
