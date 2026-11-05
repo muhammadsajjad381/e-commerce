@@ -6,7 +6,7 @@ import Cart from './pages/Cart'
 import Wishlist from './pages/Wishlist'
 import Login from './pages/Login'
 import Register from './pages/Register'
-
+import SearchResults from './pages/SearchResults'
 import Footer from './components/Footer'
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/search" element={<SearchResults />} />
        </Routes>
        <Footer />
       

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiX, FiSearch, FiUser, FiHeart, FiChevronDown, FiChevronRight } from 'react-icons/fi'
-
+import SearchBar from './SearchBar'
 const categories = [
   { name: 'Electronics', subcategories: ['Mobiles', 'Laptops', 'Cameras', 'Accessories'] },
   { name: 'Fashion', subcategories: ["Men's Wear", "Women's Wear", 'Kids', 'Footwear'] },
@@ -37,19 +37,9 @@ function MobileDrawer({ open, onClose }) {
             <FiX size={22} />
           </button>
         </div>
-
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full px-3 py-2 text-sm outline-none"
-            />
-            <button className="bg-orange-500 text-white px-3 py-2">
-              <FiSearch size={16} />
-            </button>
-          </div>
-        </div>
+<div className="p-4 border-b border-gray-200">
+  <SearchBar placeholder="Search products..." className="flex" onSearch={onClose} />
+</div>
 
         
         <div className="p-4 border-b border-gray-200 flex flex-wrap gap-6">

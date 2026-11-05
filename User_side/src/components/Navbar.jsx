@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux'
 import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX, FiChevronDown } from 'react-icons/fi'
 import CategoryDropdown from './CategoryDropdown'
 import MobileDrawer from './MobileDrawer'
+import SearchBar from './SearchBar'
 
 function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
+   const [showMobileSearch, setShowMobileSearch] = useState(false)
 
   const cartItems = useSelector((state) => state.cart.items)
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0)
@@ -33,21 +35,18 @@ function Navbar() {
         <Link to="/" className="text-xl md:text-2xl font-bold text-orange-500 shrink-0">
           Market<span className="text-gray-900">Hub</span>
         </Link>
+         <SearchBar
+          placeholder="Search products, brands here..."
+          className="hidden md:flex flex-1"
+        />
 
-        <div className="hidden md:flex flex-1 items-center border border-gray-300 rounded-md overflow-hidden">
-          <input
-            type="text"
-            placeholder="Search products, brands here..."
-            className="w-full px-4 py-2 outline-none text-sm"
-          />
-          <button className="bg-orange-500 text-white px-4 py-2 hover:bg-orange-600 transition">
-            <FiSearch size={18} />
-          </button>
-        </div>
-
-        <button className="md:hidden ml-auto text-gray-700">
+ <button
+          className="md:hidden ml-auto text-gray-700"
+          onClick={() => setShowMobileSearch(!showMobileSearch)}
+        >
           <FiSearch size={22} />
         </button>
+        
 
         <div className="hidden md:flex items-center gap-5 shrink-0 text-gray-700">
           <Link to="/login" className="flex flex-col items-center text-xs hover:text-orange-500">
@@ -83,6 +82,16 @@ function Navbar() {
           )}
         </Link>
       </div>
+      {showMobileSearch && (
+        <div className="md:hidden px-3 pb-3">
+          <SearchBar
+            placeholder="Search products..."
+            className="flex w-full"
+            onSearch={() => setShowMobileSearch(false)}
+          />
+        </div>
+      )}
+
 
       <nav className="hidden md:block border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-2 flex gap-6 text-sm text-gray-600">
