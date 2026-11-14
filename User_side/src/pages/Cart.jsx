@@ -8,7 +8,7 @@ function Cart() {
   const dispatch = useDispatch()
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0)
-  const shipping = subtotal > 0 ? 150 : 0
+  const shipping = subtotal === 0 || subtotal >= 2000 ? 0 : 150
   const total = subtotal + shipping
 
   if (items.length === 0) {
