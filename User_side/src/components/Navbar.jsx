@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX, FiChevronDown } from 'react-icons/fi'
+import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu,FiPackage, FiX, FiChevronDown } from 'react-icons/fi'
 import CategoryDropdown from './CategoryDropdown'
 import MobileDrawer from './MobileDrawer'
 import SearchBar from './SearchBar'
@@ -62,6 +62,10 @@ function Navbar() {
               </span>
             )}
           </Link>
+          <Link to="/orders" className="flex flex-col items-center text-xs hover:text-orange-500">
+  <FiPackage size={20} />
+  <span>Orders</span>
+</Link>
           <Link to="/cart" className="relative flex flex-col items-center text-xs hover:text-orange-500">
             <FiShoppingCart size={20} />
             <span>Cart</span>

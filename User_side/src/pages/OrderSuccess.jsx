@@ -51,6 +51,12 @@ function OrderSuccess() {
         >
           Continue Shopping
         </Link>
+        <Link
+  to="/orders"
+  className="inline-block border border-gray-300 text-gray-700 px-6 py-2.5 rounded-md text-sm sm:text-base hover:border-orange-500 hover:text-orange-500 transition ml-2"
+>
+  My Orders
+</Link>
       </div>
     </div>
   )

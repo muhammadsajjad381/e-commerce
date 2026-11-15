@@ -9,6 +9,7 @@ import Register from './pages/Register'
 import SearchResults from './pages/SearchResults'
 import Checkout from './pages/Checkout'
 import OrderSuccess from './pages/OrderSuccess'
+import Orders from './pages/Orders'
 import Footer from './components/Footer'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/search" element={<SearchResults />} />
         <Route path="/checkout" element={<Checkout />} />
 <Route path="/order-success" element={<OrderSuccess />} />
+<Route path="/orders" element={<Orders />} />
        </Routes>
        <Footer />
       
