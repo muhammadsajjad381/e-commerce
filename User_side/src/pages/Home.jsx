@@ -1,16 +1,8 @@
 import ProductCard from '../components/ProductCard'
 import { dummyProducts } from '../data/products'
 
-
-
-const categories = [
-  { name: 'Electronics', icon: '📱' },
-  { name: 'Fashion', icon: '👕' },
-  { name: 'Home & Living', icon: '🏠' },
-  { name: 'Vehicles', icon: '🚗' },
-  { name: 'Beauty', icon: '💄' },
-  { name: 'Sports', icon: '⚽' },
-]
+import { Link } from 'react-router-dom'
+import { categories } from '../data/categories'
 
 function Home() {
   return (
@@ -29,17 +21,18 @@ function Home() {
       </div>
 
       
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
-        {categories.map((cat) => (
-          <div
-            key={cat.name}
-            className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:border-orange-500 hover:shadow-sm transition cursor-pointer"
-          >
-            <span className="text-2xl sm:text-3xl mb-1">{cat.icon}</span>
-            <span className="text-[11px] sm:text-xs text-gray-700 text-center">{cat.name}</span>
-          </div>
-        ))}
-      </div>
+     <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
+  {categories.map((cat) => (
+    <Link
+      key={cat.slug}
+      to={`/category/${cat.slug}`}
+      className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:border-orange-500 hover:shadow-sm transition"
+    >
+      <span className="text-2xl sm:text-3xl mb-1">{cat.icon}</span>
+      <span className="text-[11px] sm:text-xs text-gray-700 text-center">{cat.name}</span>
+    </Link>
+  ))}
+</div>
 
       
       <div className="flex items-center justify-between mb-3 sm:mb-4">

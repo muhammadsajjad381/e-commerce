@@ -2,12 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiX, FiSearch, FiUser, FiHeart, FiChevronDown, FiChevronRight } from 'react-icons/fi'
 import SearchBar from './SearchBar'
-const categories = [
-  { name: 'Electronics', subcategories: ['Mobiles', 'Laptops', 'Cameras', 'Accessories'] },
-  { name: 'Fashion', subcategories: ["Men's Wear", "Women's Wear", 'Kids', 'Footwear'] },
-  { name: 'Home & Living', subcategories: ['Furniture', 'Kitchen', 'Decor', 'Bedding'] },
-  { name: 'Vehicles', subcategories: ['Cars', 'Bikes', 'Spare Parts'] },
-]
+import { categories } from '../data/categories'
 
 function MobileDrawer({ open, onClose }) {
   const [expanded, setExpanded] = useState(null)
@@ -63,21 +58,30 @@ function MobileDrawer({ open, onClose }) {
                 {cat.name}
                 {expanded === cat.name ? <FiChevronDown size={16} /> : <FiChevronRight size={16} />}
               </button>
-              {expanded === cat.name && (
-                <ul className="pb-2">
-                  {cat.subcategories.map((sub) => (
-                    <li key={sub}>
-                      <Link
-                        to="/"
-                        onClick={onClose}
-                        className="block px-6 py-2 text-sm text-gray-600"
-                      >
-                        {sub}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
+             {expanded === cat.name && (
+  <ul className="pb-2">
+    <li>
+      <Link
+        to={`/category/${cat.slug}`}
+        onClick={onClose}
+        className="block px-6 py-2 text-sm text-orange-500"
+      >
+        All {cat.name}
+      </Link>
+    </li>
+    {cat.subcategories.map((sub) => (
+      <li key={sub.slug}>
+        <Link
+          to={`/category/${cat.slug}?sub=${sub.slug}`}
+          onClick={onClose}
+          className="block px-6 py-2 text-sm text-gray-600"
+        >
+          {sub.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+)}
             </div>
           ))}
           <Link

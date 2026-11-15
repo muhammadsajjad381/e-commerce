@@ -9,6 +9,7 @@ import Register from './pages/Register'
 import SearchResults from './pages/SearchResults'
 import Checkout from './pages/Checkout'
 import OrderSuccess from './pages/OrderSuccess'
+import Category from './pages/Category'
 import Orders from './pages/Orders'
 import Footer from './components/Footer'
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
 <Route path="/order-success" element={<OrderSuccess />} />
 <Route path="/orders" element={<Orders />} />
+<Route path="/category/:slug" element={<Category />} />
        </Routes>
        <Footer />
       
