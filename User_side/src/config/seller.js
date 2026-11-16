@@ -1,0 +1,1 @@
+export const CURRENT_SELLER = 'My Store'

@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiHeart, FiShoppingCart, FiStar, FiMinus, FiPlus, FiTruck, FiShield } from 'react-icons/fi'
-import { dummyProducts } from '../data/products'
+// import {useselector} from 'react-redux'
 import { addToCart } from '../store/cartSlice'
 import { toggleWishlist } from '../store/wishlistSlice'
 
 function ProductDetail() {
   const { id } = useParams()
-  const product = dummyProducts.find((p) => p.id === Number(id))
+  const product = useSelector((state) => state.products.items.find((p) => p.id === Number(id)))
 
   const [activeImage, setActiveImage] = useState(0)
   const [qty, setQty] = useState(1)

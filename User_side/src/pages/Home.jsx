@@ -1,10 +1,11 @@
 import ProductCard from '../components/ProductCard'
-import { dummyProducts } from '../data/products'
+import { useSelector } from 'react-redux'
 
 import { Link } from 'react-router-dom'
 import { categories } from '../data/categories'
 
 function Home() {
+  const products = useSelector((state) => state.products.items)
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
 
@@ -41,7 +42,7 @@ function Home() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-        {dummyProducts.map((product) => (
+        {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { FiFilter, FiSearch } from 'react-icons/fi'
 import ProductCard from '../components/ProductCard'
-import { dummyProducts } from '../data/products'
+import {useSelector} from 'react-redux'
 import { categories } from '../data/categories'
 
 const defaultFilters = { minPrice: '', maxPrice: '', conditions: [], minRating: 0 }
@@ -16,7 +16,7 @@ function CategoryContent({ slug }) {
   const [showFilters, setShowFilters] = useState(false)
 
   const category = categories.find((c) => c.slug === slug)
-
+const products = useSelector((state) => state.products.items)
   if (!category) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
@@ -48,9 +48,9 @@ function CategoryContent({ slug }) {
   }
 
   const countInSub = (subSlug) =>
-    dummyProducts.filter((p) => p.category === slug && p.subcategory === subSlug).length
+    products.filter((p) => p.category === slug && p.subcategory === subSlug).length
 
-  let results = dummyProducts.filter((p) => {
+  let results = products.filter((p) => {
     if (p.category !== slug) return false
     if (activeSub && p.subcategory !== activeSub) return false
     if (filters.minPrice !== '' && p.price < Number(filters.minPrice)) return false
@@ -200,7 +200,7 @@ function CategoryContent({ slug }) {
         {activeSubName && <> / {activeSubName}</>}
       </div>
 
-      {/* Title + sort + mobile filter button */}
+
       <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
         <h1 className="text-lg sm:text-2xl font-semibold text-gray-900">
           {activeSubName || category.name}
@@ -231,17 +231,16 @@ function CategoryContent({ slug }) {
         </div>
       </div>
 
-      {/* Mobile filter panel */}
+     
       {showFilters && <div className="lg:hidden mb-4">{filterPanel}</div>}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
 
-        {/* Desktop sidebar */}
+     
         <aside className="hidden lg:block lg:col-span-1 h-fit lg:sticky lg:top-28">
           {filterPanel}
         </aside>
 
-        {/* Products */}
         <div className="lg:col-span-3">
           {results.length === 0 ? (
             <div className="text-center py-16">

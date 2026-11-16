@@ -85,7 +85,7 @@ function MobileDrawer({ open, onClose }) {
             </div>
           ))}
           <Link
-            to="/"
+            to="/seller/dashboard"
             onClick={onClose}
             className="block px-3 py-3 text-sm text-orange-500 font-medium"
           >

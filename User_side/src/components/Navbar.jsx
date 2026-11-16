@@ -144,7 +144,7 @@ function Navbar() {
           >
             Home & Living
           </Link>
-          <Link to="/" className="hover:text-orange-500 whitespace-nowrap py-2">
+          <Link to="/seller/dashboard" className="hover:text-orange-500 whitespace-nowrap py-2">
             Sell on MarketHub
           </Link>
         </div>

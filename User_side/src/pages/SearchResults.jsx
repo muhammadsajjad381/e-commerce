@@ -2,17 +2,18 @@ import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 import ProductCard from '../components/ProductCard'
-import { dummyProducts } from '../data/products'
+import { useSelector } from 'react-redux'
 
 function SearchResults() {
   const [searchParams] = useSearchParams()
   const query = (searchParams.get('q') || '').trim()
   const [sort, setSort] = useState('relevance')
+  const products = useSelector((state) => state.products.items)
 
-  // Query ko words mein todein: "wireless headphones" -> ["wireless", "headphones"]
+  
   const words = query.toLowerCase().split(/\s+/).filter(Boolean)
 
-  let results = dummyProducts.filter((product) => {
+  let results = products.filter((product) => {
     const text = `${product.title} ${product.description || ''}`.toLowerCase()
     return words.every((word) => text.includes(word))
   })
@@ -50,15 +51,15 @@ function SearchResults() {
       {results.length === 0 ? (
         <div className="text-center py-16">
           <FiSearch size={40} className="mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500 text-base sm:text-lg mb-1">Koi product nahi mila.</p>
+          <p className="text-gray-500 text-base sm:text-lg mb-1">No products found.</p>
           <p className="text-gray-400 text-xs sm:text-sm mb-5">
-            Kisi aur keyword se try karein ya spelling check karein.
+            try searching with different keywords or check your spelling.
           </p>
           <Link
             to="/"
             className="inline-block bg-orange-500 text-white px-6 py-2.5 rounded-md text-sm sm:text-base hover:bg-orange-600 transition"
           >
-            Home Pe Wapis Jayein
+            Go Back Home
           </Link>
         </div>
       ) : (
