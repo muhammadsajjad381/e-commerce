@@ -14,7 +14,7 @@ import SellerDashboard from "./pages/seller/SellerDashboard";
 import ProductForm from "./pages/seller/ProductForm";
 import Orders from "./pages/Orders";
 import Footer from "./components/Footer";
-
+import AdminPanel from './pages/admin/AdminPanel'
 function App() {
   return (
     <>
@@ -34,6 +34,7 @@ function App() {
         <Route path="/seller/dashboard" element={<SellerDashboard />} />
         <Route path="/seller/products/new" element={<ProductForm />} />
         <Route path="/seller/products/:id/edit" element={<ProductForm />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
       <Footer />
     </>

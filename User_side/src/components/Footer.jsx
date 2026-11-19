@@ -57,15 +57,15 @@ function Footer() {
             <ul className="flex flex-col gap-2.5 text-xs sm:text-sm">
               <li className="flex items-start gap-2">
                 <FiMapPin size={15} className="mt-0.5 shrink-0 text-orange-500" />
-                <span>Faisalabad, Punjab, Pakistan</span>
+                <span>Lahore, Punjab, Pakistan</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiPhone size={15} className="shrink-0 text-orange-500" />
-                <span>+92 300 1234567</span>
+                <span>+92 303 2681310</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiMail size={15} className="shrink-0 text-orange-500" />
-                <span>support@markethub.pk</span>
+                <span>muhammadsajjad1328@gmail.com</span>
               </li>
             </ul>
           </div>
