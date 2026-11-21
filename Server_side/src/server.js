@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
+import  mongoose  from 'mongoose'
 import app from './app.js'
 import { env } from './config/env.js'
-import { logger } from './config/logger.js'
+// import { logger } from './config/logger.js'
 import { connectDB } from './config/db.js'
 
 async function start() {
